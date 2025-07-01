@@ -456,20 +456,33 @@ def test_valgorithm2_up_to(startN, max_n: int, *, quiet_valgo: bool = True,
 
 
 if __name__ == "__main__":
-    n = 6           # Total number of elements
-    k = 3           # Size of each subset
-    l = 3           # Symmetry (Expect d=n/gcd(n, l) blocks of symmetry ~ 2pi/d))
-    override = []   # Manual input for ordering, if needed. Note if gcd(n,l) != l, this may not work as expected.
-    useStandardOrdering = True # Use standard ordering (l, l-1, ..., 1) or random ordering
-    randomTrial = False # Enable mode to randomly select n, k, l up to above choice of n
+    if len(sys.argv) == 4:
+        # If arguments are provided, use them to set n, k, l, or state using random
+        n = int(sys.argv[1])
+        k = int(sys.argv[2])
+        l = int(sys.argv[3])
+    if len(sys.argv) == 3:
+        n = int(sys.argv[1])
+        randomTrial = bool(int(sys.argv[2])) if len(sys.argv) > 4 else False
+    elif len(sys.argv) > 4:
+        print("Error in arguments provided. Usage python ValgFull.py n k l [randomTrial]")
+    else:
+        # Default for manual
+        print("Using default parameters for manual run.")
+        n = 6           # Total number of elements
+        k = 3           # Size of each subset
+        l = 3           # Symmetry (Expect d=n/gcd(n, l) blocks of symmetry ~ 2pi/d))
+        override = []   # Manual input for ordering, if needed. Note if gcd(n,l) != l, this may not work as expected.
+        useStandardOrdering = True # Use standard ordering (l, l-1, ..., 1) or random ordering
+        randomTrial = False # Enable mode to randomly select n, k, l up to above choice of n
 
-    printSeeds = True # Print the results of the orbit
-    copyCollectionToClipboard = False # Copy the results to clipboard
+        printSeeds = True # Print the results of the orbit
+        copyCollectionToClipboard = False # Copy the results to clipboard
 
-    testing = True # Enable mode to test from nStart to nTo (Note this skips cases not meeting necessary conditions)
-    nStart = 7      # Start of the range for testing
-    nTo = 200        # End of the range for testing
-    supPass = False # Suppress showing passed cases (note this will give pass on all cases, so expect no output)
+        testing = False # Enable mode to test from nStart to nTo (Note this skips cases not meeting necessary conditions)
+        nStart = 7      # Start of the range for testing
+        nTo = 200        # End of the range for testing
+        supPass = False # Suppress showing passed cases (note this will give pass on all cases, so expect no output)
 
     runAlgorithmFull(n, k, l, override=override, useStandardOrdering=useStandardOrdering,
                      printSeeds=printSeeds, copyCollectionToClipboard=copyCollectionToClipboard,
