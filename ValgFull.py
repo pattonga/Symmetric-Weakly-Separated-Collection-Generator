@@ -463,7 +463,7 @@ if __name__ == "__main__":
         n = int(sys.argv[1])
         k = int(sys.argv[2])
         l = int(sys.argv[3])
-    if len(sys.argv) == 3:
+    elif len(sys.argv) == 3:
         n = int(sys.argv[1])
         randomTrial = bool(int(sys.argv[2])) if len(sys.argv) > 4 else False
     elif len(sys.argv) > 4:
