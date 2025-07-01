@@ -381,7 +381,37 @@ def runAlgorithmFull(n, k, l, override=[], useStandardOrdering=True, printSeeds=
         else:
             print(f"Invalid parameters: n={n}, k={k}, l={l}. Check conditions.")
 
-    
+
+def sysDriver(args):
+    if len(sys.argv) == 4:
+        # If arguments are provided, use them to set n, k, l, or state using random
+        n = int(sys.argv[1])
+        k = int(sys.argv[2])
+        l = int(sys.argv[3])
+        clipboard = True
+        try:
+            pyperclip.copy("test")
+        except pyperclip.PyperclipException as e:
+            print("pyperclip is installed, but no clipboard mechanism was found. Proceeding without.")
+            clipboard = False
+        runAlgorithmFull(n, k, l, copyCollectionToClipboard=clipboard)
+    elif len(sys.argv) == 2:
+        print("Running random trial based on n.")
+        n = int(sys.argv[1])
+        clipboard = True
+        if pyperclip is None:
+            print("pyperclip not installed. Run 'pip install pyperclip' to enable clipboard copy.")
+            clipboard = False
+        else:
+            try:
+                pyperclip.copy("test")
+            except pyperclip.PyperclipException as e:
+                print("pyperclip is installed, but no clipboard mechanism was found. Proceeding without.")
+                clipboard = False
+        runAlgorithmFull(n, 0, 0, randomTrial=True, copyCollectionToClipboard=clipboard)  # Random trial with n only
+
+    elif len(sys.argv) > 4:
+        print("Error in arguments provided. Usage python ValgFull.py n k l [randomTrial]")
 # ---------------------------------------------------------------------------
 # Tester
 # ---------------------------------------------------------------------------
@@ -457,17 +487,8 @@ def test_valgorithm2_up_to(startN, max_n: int, *, quiet_valgo: bool = True,
 
 if __name__ == "__main__":
     print("Beginning run of Valgorithm Full")
-    print(len(sys.argv))
-    if len(sys.argv) == 4:
-        # If arguments are provided, use them to set n, k, l, or state using random
-        n = int(sys.argv[1])
-        k = int(sys.argv[2])
-        l = int(sys.argv[3])
-    elif len(sys.argv) == 3:
-        n = int(sys.argv[1])
-        randomTrial = bool(int(sys.argv[2])) if len(sys.argv) > 4 else False
-    elif len(sys.argv) > 4:
-        print("Error in arguments provided. Usage python ValgFull.py n k l [randomTrial]")
+    if len(sys.argv) != 1:
+        sysDriver(sys.argv)
     else:
         # Default for manual
         print("Using default parameters for manual run.")
@@ -486,9 +507,9 @@ if __name__ == "__main__":
         nTo = 200        # End of the range for testing
         supPass = False # Suppress showing passed cases (note this will give pass on all cases, so expect no output)
 
-    runAlgorithmFull(n, k, l, override=override, useStandardOrdering=useStandardOrdering,
-                     printSeeds=printSeeds, copyCollectionToClipboard=copyCollectionToClipboard,
-                     testing=testing, nStart=nStart, nTo=nTo, randomTrial=randomTrial,
-                     supPass=False)
-        
+        runAlgorithmFull(n, k, l, override=override, useStandardOrdering=useStandardOrdering,
+                        printSeeds=printSeeds, copyCollectionToClipboard=copyCollectionToClipboard,
+                        testing=testing, nStart=nStart, nTo=nTo, randomTrial=randomTrial,
+                        supPass=False)
+            
         
