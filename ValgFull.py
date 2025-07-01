@@ -456,6 +456,8 @@ def test_valgorithm2_up_to(startN, max_n: int, *, quiet_valgo: bool = True,
 
 
 if __name__ == "__main__":
+    print("Beginning run of Valgorithm Full")
+    print(len(sys.argv))
     if len(sys.argv) == 4:
         # If arguments are provided, use them to set n, k, l, or state using random
         n = int(sys.argv[1])
