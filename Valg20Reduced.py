@@ -2,6 +2,7 @@ from itertools import combinations
 from math import gcd
 from typing import Iterable, List, Sequence, Tuple
 import random
+import sys
 
 # ───────────────────────
 # Helper Functions
@@ -338,14 +339,27 @@ def runAlgorithm(n, k, l, override=[], printSeeds=True, printCollection=True):
 # ───────────────────────
 
 if __name__ == "__main__":
-    n = 10      # Total number of elements
-    k = 4       # Size of each subset
-    l = 6       # Symmetry (Expect d=n/gcd(n, l) blocks of symmetry ~ 2pi/d))
-    override = []   # Manual input for ordering, if needed. Note if gcd(n,l) != l, this may not work as expected.
-    printSeeds = True # Print results or not
-    printCollection = True # Print the collection generated or not
-    
-    runAlgorithm(n, k, l, override, printSeeds, printCollection)
+    # Example usage:
+    # python Valg20Reduced.py n k l [override] [printSeeds] [printCollection]
+    # python Valg20Reduced.py 10 4 6
+    if (len(sys.argv) > 2):
+        # If command line arguments are provided, use them
+        n = int(sys.argv[1])
+        k = int(sys.argv[2])
+        l = int(sys.argv[3])
+        override = list(map(int, sys.argv[4:])) if len(sys.argv) > 4 else []
+        printSeeds = True if len(sys.argv) < 6 or sys.argv[5].lower() == 'true' else False
+        printCollection = True if len(sys.argv) < 7 or sys.argv[6].lower() == 'true' else False
+    else:
+        # Manual Run: Adjust and run from here
+        n = 10      # Total number of elements
+        k = 4       # Size of each subset
+        l = 6       # Symmetry (Expect d=n/gcd(n, l) blocks of symmetry ~ 2pi/d))
+        override = []   # Manual input for ordering, if needed. Note if gcd(n,l) != l, this may not work as expected.
+        printSeeds = True # Print results or not
+        printCollection = True # Print the collection generated or not
+        
+        runAlgorithm(n, k, l, override, printSeeds, printCollection)
 
 
         
