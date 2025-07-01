@@ -71,9 +71,9 @@ def makeMapBetween(n, k, l):
     return DictionNtoDL
     
 # ───────────────────────
-# Main Algorithm
+# Main Algorithm and runner
 # ───────────────────────
-def Valgorithm2(n, k, l, verbose, stOrder=True,override=[]):
+def Valgorithm2(n, k, l, printSeeds=True, stOrder=True,override=[], copyToClipboard=False, printCollection=True,):
 
 # ───────────────────────
 # Initialization of variables
@@ -133,7 +133,7 @@ def Valgorithm2(n, k, l, verbose, stOrder=True,override=[]):
 # Main loop
 # ───────────────────────
     startAt = l-g
-    print(f"Starting at bucket {startAt} (l-g={l}-{g}). Now n={n}, k={k}, l={l}, g={g}.")
+
     for i in range(0,startAt):                  # Remove all buckets before l-g
         #a=l-i
         a = ordering[i]
@@ -174,13 +174,11 @@ def Valgorithm2(n, k, l, verbose, stOrder=True,override=[]):
 
         iterConsecs =  []                        # Sets to iterate on (all consecutive)
         ordered = sorted(previousStepRemoval)   # Puts them into sorted order
-        print(ordered)
         for u in range(len(ordered)):           # Loop through sequences
             base = (a-k-1)%n+1
             while (base+1-1)%n+1 not in previousStepRemoval:  # (base+1-1)%n+1 = Find sucessor to a-k
                 base = (base+1-1)%n+1
             start = ordered.index((base+1-1)%n+1)
-            print(start)
             consec = tuple(ordered[(start + j+u) % len(ordered)] for j in range(k))     # Create the consecutive  terms 
             iterConsecs.append(consec)                                                  # Add this to a the iterate set 
             if(consec[0])== a:                                                          # We are done when a starts on the left
@@ -189,7 +187,6 @@ def Valgorithm2(n, k, l, verbose, stOrder=True,override=[]):
         # ───────────────────────
         # Begin loop for all consecutive numbers
         # ───────────────────────
-        print(f"Consecutive sets for bucket {a}: {iterConsecs}")
         for consec in iterConsecs:             
 
             candidate = tuple(consec)
@@ -215,10 +212,6 @@ def Valgorithm2(n, k, l, verbose, stOrder=True,override=[]):
             for r in right:                                 # See if we will be starting by removing from right (this impacts while loop when left = [] to start)
                 if r not in total_Available:
                     outOfTerms = False
-
-            if verbose:
-                print(f"Current consecutive seed for bucket {a}: Left = {left} Right = {right}")     # If we are printing, give some starter details
-
             # ───────────────────────
             # Main removal loop given a starting seed
             # ───────────────────────
@@ -254,7 +247,6 @@ def Valgorithm2(n, k, l, verbose, stOrder=True,override=[]):
                     while (last+j-1)%n+1 not in total_Available or (last+j-1)%n+1 in left+right:
                         j += 1
                         if(j> n):                       # Break condition if no consecutive to add
-                            print("100 overflow")
                             tooSmall = True
                             break
                     if tooSmall:
@@ -288,8 +280,6 @@ def Valgorithm2(n, k, l, verbose, stOrder=True,override=[]):
                         while last+j not in previousStepRemoval: #Loop to find available term
                             j += 1
                         right.append(last + j)                   # Add term
-                if verbose:
-                    print("After filling right hole:", left, right)
 
                 # ───────────────────────
                 # Add seed and set up for next iteration
@@ -313,8 +303,6 @@ def Valgorithm2(n, k, l, verbose, stOrder=True,override=[]):
             previousStepRemoval.discard((a+j*l-1)%n+1)
             j+=1
         previousStepRemoval.discard(a)
-        if verbose:
-            print(previousStepRemoval)
         total_Available.discard(a)                              # Variable cleanup with discarding
         if(len(previousStepRemoval) < k):                       # Check if we have another bucket
             break
@@ -329,29 +317,71 @@ def Valgorithm2(n, k, l, verbose, stOrder=True,override=[]):
             newSeedsList.append(tuple(sorted(newSeed)))
         seedsList = newSeedsList
         n=prevN
-    if verbose:
+    if printSeeds:
         print("\nBegin list of seeds:\n")                       # Print seeds if we are in verbose mode
         for seed in seedsList:
             print(seed)
         print("\nEnd list of seeds:\n")
-        print("\nBegin generating collection:\n")
+    if printCollection or copyToClipboard:
+        if printCollection:
+            print("\nBegin generating collection:\n")
 
         output = ""  # To collect all the prints
 
         for seed in seedsList:
-            buffer = io.StringIO()
-            sys.stdout = buffer  # Redirect print statements
+                buffer = io.StringIO()
+                sys.stdout = buffer  # Redirect print statements
 
-            orbit(seed, l, n, verbose=True)  # Prints go to buffer now
+                orbit(seed, l, n, verbose=True)  # Prints go to buffer now
 
-            sys.stdout = sys.__stdout__  # Reset stdout
-            output += buffer.getvalue()
-            buffer.close()
-        pyperclip.copy(output)  # Send to clipboard
-        print(output)
-        print("\nEnd generating collection:\n")
+                sys.stdout = sys.__stdout__  # Reset stdout
+                output += buffer.getvalue()
+                buffer.close()
+        if copyToClipboard:
+            pyperclip.copy(output)  # Send to clipboard
+        if printCollection:
+            print(output)
+            print("\nEnd generating collection:\n")
     return seedsList
 
+def runAlgorithmFull(n, k, l, override=[], useStandardOrdering=True, printSeeds=True,
+                     copyCollectionToClipboard=False, printCollection=True,
+                     testing=False, nStart=7, nTo=20, randomTrial=False, supPass=False):
+    if testing:
+        test_valgorithm2_up_to(nStart, nTo, quiet_valgo=True, verbose=True, supPass=supPass)
+    elif randomTrial:
+        ogN = n
+        conds = False
+        while not conds:
+            n = random.randint(4,ogN)
+            l=random.randint(2,n-2)
+            k=random.randint(2,n//2)
+            conds = checkConds(n,k,l, False)
+        print(f"We are going with n={n}, k={k}, l={l}.")
+        seeds=Valgorithm2(n,k,l,printSeeds=printSeeds, stOrder=useStandardOrdering, override=override, copyToClipboard=copyCollectionToClipboard)
+        unique_subsets = set()
+        for seed in seeds:
+            unique_subsets.update(orbit(seed, l, n, verbose=False))
+
+        expected = k * (n - k) + 1
+        found    = len(unique_subsets)
+        print(found)
+        print(expected)
+    else:
+        if(checkConds(n, k, l, True)):
+            seeds=Valgorithm2(n,k,l,printSeeds=printSeeds, stOrder=useStandardOrdering, override=override, copyToClipboard=copyCollectionToClipboard)
+            unique_subsets = set()
+            for seed in seeds:
+                unique_subsets.update(orbit(seed, l, n, verbose=False))
+
+            expected = k * (n - k) + 1
+            found  = len(unique_subsets)
+            print(found)
+            print(expected)
+        else:
+            print(f"Invalid parameters: n={n}, k={k}, l={l}. Check conditions.")
+
+    
 # ---------------------------------------------------------------------------
 # Tester
 # ---------------------------------------------------------------------------
@@ -388,7 +418,7 @@ def test_valgorithm2_up_to(startN, max_n: int, *, quiet_valgo: bool = True,
                     with suppress_output():
                     #print(f"Testing n={n}, k={k}, l={l}...", end=' ')
                         counter+=1
-                        seeds = Valgorithm2(n, k, l, verbose=not quiet_valgo, stOrder=False)
+                        seeds = Valgorithm2(n, k, l, printCollection=not quiet_valgo,printSeeds=not quiet_valgo, stOrder=False)
 
                     # independently rebuild the collection
                     unique_subsets = set()
@@ -426,48 +456,24 @@ def test_valgorithm2_up_to(startN, max_n: int, *, quiet_valgo: bool = True,
 
 
 if __name__ == "__main__":
-    nStart = 7
-    n = 6
-    k = 3
-    l = 3
-    override = [2,1]
-    testing = False
-    printRes = True
-    randomTrial = False
+    n = 6           # Total number of elements
+    k = 3           # Size of each subset
+    l = 3           # Symmetry (Expect d=n/gcd(n, l) blocks of symmetry ~ 2pi/d))
+    override = []   # Manual input for ordering, if needed. Note if gcd(n,l) != l, this may not work as expected.
+    useStandardOrdering = True # Use standard ordering (l, l-1, ..., 1) or random ordering
+    randomTrial = False # Enable mode to randomly select n, k, l up to above choice of n
 
-    
-    if testing:
-        test_valgorithm2_up_to(nStart, n, quiet_valgo=True, verbose=True, supPass=False)
-    elif randomTrial:
-        conds = False
-        while not conds:
-            n = random.randint(4,90)
-            l=random.randint(2,n-2)
-            k=random.randint(2,n//2)
-            conds = checkConds(n,k,l, False)
-        print(f"We are going with n={n}, k={k}, l={l}.")
-        seeds=Valgorithm2(n,k,l,printRes)
-        unique_subsets = set()
-        for seed in seeds:
-            unique_subsets.update(orbit(seed, l, n, verbose=False))
+    printSeeds = True # Print the results of the orbit
+    copyCollectionToClipboard = False # Copy the results to clipboard
 
-        expected = k * (n - k) + 1
-        found    = len(unique_subsets)
-        print(found)
-        print(expected)
-    else:
-        if(checkConds(n, k, l, True)):
-            seeds=Valgorithm2(n,k,l,printRes, stOrder=True,override=override)
-            unique_subsets = set()
-            for seed in seeds:
-                unique_subsets.update(orbit(seed, l, n, verbose=False))
+    testing = True # Enable mode to test from nStart to nTo (Note this skips cases not meeting necessary conditions)
+    nStart = 7      # Start of the range for testing
+    nTo = 200        # End of the range for testing
+    supPass = False # Suppress showing passed cases (note this will give pass on all cases, so expect no output)
 
-            expected = k * (n - k) + 1
-            found  = len(unique_subsets)
-            print(found)
-            print(expected)
-        else:
-            print(f"Invalid parameters: n={n}, k={k}, l={l}. Check conditions.")
-
+    runAlgorithmFull(n, k, l, override=override, useStandardOrdering=useStandardOrdering,
+                     printSeeds=printSeeds, copyCollectionToClipboard=copyCollectionToClipboard,
+                     testing=testing, nStart=nStart, nTo=nTo, randomTrial=randomTrial,
+                     supPass=False)
         
         
