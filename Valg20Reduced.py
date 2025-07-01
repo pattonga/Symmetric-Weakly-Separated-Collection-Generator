@@ -359,7 +359,7 @@ if __name__ == "__main__":
         printSeeds = True # Print results or not
         printCollection = True # Print the collection generated or not
         
-        runAlgorithm(n, k, l, override, printSeeds, printCollection)
+    runAlgorithm(n, k, l, override, printSeeds, printCollection)
 
 
         
