@@ -17,6 +17,7 @@ Implements an algorithm to generate symmetric weakly separated collections of su
 - [printCollection] (optional, bool): If True, prints the entire generated symmetric weakly separated collection.
 
 **Parameter Conditions:**
+
 For a successful set, we check:
 - gcd(n,l) != 1
 - k = {-1,0,1} mod n/gcd(n,l)
@@ -42,6 +43,7 @@ Can be run directly from file if avoiding terminal use.
 - [clipboard] (optional, bool): Default: False, no changes. If True, outputted generated collection will be copied to clipboard (useful is using a plabic tiling generator such as https://www.math.ucla.edu/~galashin/plabic.html)
 
 **Parameter Conditions:**
+
 For a successful set, we check:
 - gcd(n,l) != 1
 - k = {-1,0,1} mod n/gcd(n,l)
