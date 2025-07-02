@@ -26,11 +26,9 @@ For a successful set, we check:
 
 **Usage Syntax:**
 
-python generateSetsReduced.py n k l [override] [printSeeds] [printCollection]
-
-python generateSetsReduced.py 10 5 5 [3,2,1,4,5] True True
-
-Can be run directly from file if avoiding terminal use.
+- python generateSetsReduced.py n k l [override] [printSeeds] [printCollection]
+- python generateSetsReduced.py 10 5 5 [3,2,1,4,5] True True
+- Can be run directly from file if avoiding terminal use.
 
 
 ### generateSetsFull.py
@@ -55,14 +53,12 @@ For a successful set, we check:
 **Usage Synatax:**
 
 4 Parameters:
-python generateSetsFull.py n k l [clipboard]
-
-python generateSetsFull.py 10 5 5 True
-
-  Generates a collection using a semi-random ordering for n=10,   k=5, l=5 and copies result to clipboard
+- python generateSetsFull.py n k l [clipboard]
+- python generateSetsFull.py 10 5 5 True
+  - Generates a collection using a semi-random ordering for n=10,   k=5, l=5 and copies result to clipboard
 
 1 Parameter:
-python generateSetsFull.py n
-python generateSetsFull.py 10
-  Generate a random collection for an n from 4 to 10. 
+- python generateSetsFull.py n
+- python generateSetsFull.py 10
+  - Generate a random collection for an n from 4 to 10. 
 
