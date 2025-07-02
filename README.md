@@ -22,7 +22,8 @@ For a successful set, we check:
 - gcd(n,l) != 1
 - k = {-1,0,1} mod n/gcd(n,l)
 - l < n / (k+1)
-- k > n/2 (one can take the complement of the k=n-k case to achieve this result, may be added in later fix)
+- k > n/2
+  - One can take the complement of the k=n-k case to achieve this result, may be added in a later fix
 
 **Usage Syntax:**
 
@@ -37,10 +38,14 @@ For a successful set, we check:
 - If you want seeds copied to the clipboard, pyperclip is required.
 
 **Parameters:**
-- n (int): Total number of elements to choose from. Arithmetic is done modulo n (e.g., rotational symmetry). If a single input, will generate a random collection up to size n. 
-- k (int ≤ n/2): Size of each subset.
-- l (int < n): Symmetry parameter. The algorithm assumes a symmetry of d = n / gcd(n, l) blocks (roughly corresponding to angles of 2π/d radians).
-- [clipboard] (optional, bool): Default: False, no changes. If True, outputted generated collection will be copied to clipboard (useful is using a plabic tiling generator such as https://www.math.ucla.edu/~galashin/plabic.html)
+- n (int):
+  - Total number of elements to choose from. Arithmetic is done modulo n (e.g., rotational symmetry). If a single input, will generate a random collection up to size n. 
+- k (int ≤ n/2):
+  - Size of each subset.
+- l (int < n):
+  - Symmetry parameter. The algorithm assumes a symmetry of d = n / gcd(n, l) blocks (roughly corresponding to angles of 2π/d radians).
+- [clipboard] (optional, bool):
+  -  Default: False, no changes. If True, outputted generated collection will be copied to clipboard (useful is using a plabic tiling generator such as https://www.math.ucla.edu/~galashin/plabic.html)
 
 **Parameter Conditions:**
 
@@ -48,7 +53,8 @@ For a successful set, we check:
 - gcd(n,l) != 1
 - k = {-1,0,1} mod n/gcd(n,l)
 - l < n / (k+1)
-- k > n/2 (one can take the complement of the k=n-k case to achieve this result, may be added in later fix)
+- k > n/2
+  - One can take the complement of the k=n-k case to achieve this result, may be added in a later fix
 
 **Usage Synatax:**
 
