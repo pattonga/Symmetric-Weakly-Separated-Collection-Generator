@@ -8,13 +8,19 @@ Implements an algorithm to generate symmetric weakly separated collections of su
 
 **Parameters:**
 
-- n (int): Total number of elements to choose from. Arithmetic is done modulo n (e.g., rotational symmetry).
-- k (int ≤ n/2): Size of each subset.
-- l (int < n): Symmetry parameter. The algorithm assumes a symmetry of d = n / gcd(n, l) blocks (roughly corresponding to angles of 2π/d radians).
-- [override] (optional, set/list of length l): A manual ordering of the elements {1, 2, ..., l}. 
+- n (int):
+  - Total number of elements to choose from. Arithmetic is done modulo n (e.g., rotational symmetry).
+- k (int ≤ n/2):
+  - Size of each subset.
+- l (int < n):
+  - Symmetry parameter. The algorithm assumes a symmetry of d = n / gcd(n, l) blocks (roughly corresponding to angles of 2π/d radians).
+- [override] (optional, set/list of length l):
+  - A manual ordering of the elements {1, 2, ..., l}. 
   - Note: If gcd(n, l) ≠ l, this may not work as expected.
-- [printSeeds] (optional, bool): If `True`, prints the initial seed sets used to generate the full collection.
-- [printCollection] (optional, bool): If True, prints the entire generated symmetric weakly separated collection.
+- [printSeeds] (optional, bool):
+  - If `True`, prints the initial seed sets used to generate the full collection.
+- [printCollection] (optional, bool):
+  - If True, prints the entire generated symmetric weakly separated collection.
 
 **Parameter Conditions:**
 
