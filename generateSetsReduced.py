@@ -349,6 +349,13 @@ if __name__ == "__main__":
         k = int(sys.argv[2])
         l = int(sys.argv[3])
         override = ast.literal_eval(sys.argv[4]) if len(sys.argv) > 4 else []
+        if not isinstance(override, list):
+            print("Override must be a list of integers. Using empty list instead.")
+            override = []
+        else:
+            if len(override) != l:
+                print(f"Override list length {len(override)} does not match l={l}. Using empty list instead.")
+                override = []
         printSeeds = True if len(sys.argv) < 6 or sys.argv[5].lower() == 'true' else False
         printCollection = True if len(sys.argv) < 7 or sys.argv[6].lower() == 'true' else False
     else:
