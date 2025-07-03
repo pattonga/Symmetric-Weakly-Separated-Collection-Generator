@@ -1,5 +1,5 @@
 # Symmetric-Weakly-Separated-Collection-Algorithm
-Implements an algorithm to generate symmetric weakly separated collections of subsets given parameters n, k, and l. Includes tools to compute orbits under modular shifts, validate input conditions, and verify set properties. Useful for research in combinatorics and relates to Legendrian weaves through T-shift.
+Implements an algorithm to generate maximal symmetric weakly separated collections of subsets given parameters n, k, and l. Includes tools to compute orbits under modular shifts, validate input conditions, and verify set properties. Useful for research in combinatorics and relates to Legendrian weaves through T-shift.
 
 
 ### Files and How to Use
@@ -21,7 +21,7 @@ Implements an algorithm to generate symmetric weakly separated collections of su
 - [printSeeds] (optional, bool):
   - If `True`, prints the initial seed sets used to generate the full collection.
 - [printCollection] (optional, bool):
-  - If True, prints the entire generated symmetric weakly separated collection.
+  - If True, prints the entire generated maximal symmetric weakly separated collection.
 
 **Parameter Conditions:**
 
