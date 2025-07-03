@@ -5,6 +5,7 @@ import random
 import io
 import sys
 import pyperclip
+import ast
 
 
 # ───────────────────────
@@ -383,7 +384,35 @@ def runAlgorithmFull(n, k, l, override=[], useStandardOrdering=True, printSeeds=
 
 
 def sysDriver(args):
-    if len(sys.argv) == 4 or len(sys.argv) == 5:
+    if len(sys.argv) == 6:
+        n = int(sys.argv[1])
+        k = int(sys.argv[2])
+        l = int(sys.argv[3])
+        if len(sys.argv) == 5 and sys.argv[4].lower() == "true":
+            clipboard = True
+        else:
+            clipboard = False
+
+        if clipboard:
+            if pyperclip is None:
+                print("pyperclip not installed. Run 'pip install pyperclip' to enable clipboard copy.")
+                clipboard = False
+            else:
+                try:
+                    pyperclip.copy("test")
+                except pyperclip.PyperclipException as e:
+                    print("pyperclip is installed, but no clipboard mechanism was found. Proceeding without.")
+                    clipboard = False
+        override = ast.literal_eval(sys.argv[5])
+        if not isinstance(override, list):
+            print("Override must be a list of integers. Using empty list instead.")
+            override = []
+        else:
+            if len(override) != l:
+                print(f"Override list length {len(override)} does not match l={l}. Using empty list instead.")
+                override = []
+        runAlgorithmFull(n, k, l, copyCollectionToClipboard=clipboard, override=override)
+    elif len(sys.argv) == 4 or len(sys.argv) == 5:
         # If arguments are provided, use them to set n, k, l, or state using random
         n = int(sys.argv[1])
         k = int(sys.argv[2])
