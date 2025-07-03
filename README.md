@@ -1,10 +1,10 @@
 # Symmetric-Weakly-Separated-Collection-Algorithm
-Implements an algorithm to generate symmetric weakly separated collections of subsets given parameters n, k, and l. Includes tools to compute orbits under modular shifts, validate input conditions, and verify set properties. Useful for research in combinatorics and relates to Legendrian weaves through T-Shift.
+Implements an algorithm to generate symmetric weakly separated collections of subsets given parameters n, k, and l. Includes tools to compute orbits under modular shifts, validate input conditions, and verify set properties. Useful for research in combinatorics and relates to Legendrian weaves through T-shift.
 
 
 ### Files and How to Use
 
-#### generateSetsReduced.py
+### generateSetsReduced.py
 
 **Parameters:**
 
@@ -16,7 +16,8 @@ Implements an algorithm to generate symmetric weakly separated collections of su
   - Symmetry parameter. The algorithm assumes a symmetry of d = n / gcd(n, l) blocks (roughly corresponding to angles of 2π/d radians).
 - [override] (optional, set/list of length l):
   - A manual ordering of the elements {1, 2, ..., l}. 
-  - Note: If gcd(n, l) ≠ l, this may not work as expected.
+  - When l does not divide n, the ordering must begin with the equivalence classes from g+1 to l and end with the equivalence classes from 1 to g. In other words, min{1, 2, ..., g} > max{g+1, g+2, ..., l}.
+  - Furthermore, When l does not divide n, the algorithm may not fully generate when the ordering does not include {g, g-1, ..., 1}.
 - [printSeeds] (optional, bool):
   - If `True`, prints the initial seed sets used to generate the full collection.
 - [printCollection] (optional, bool):
@@ -27,8 +28,8 @@ Implements an algorithm to generate symmetric weakly separated collections of su
 For a successful set, we check:
 - gcd(n,l) != 1
 - k = {-1,0,1} mod n/gcd(n,l)
-- l < n / (k+1)
-- k > n/2
+- l >= n / (k+1)
+- k <= n/2
   - One can take the complement of the k=n-k case to achieve this result, may be added in a later fix
 
 **Usage Syntax:**
@@ -58,8 +59,8 @@ For a successful set, we check:
 For a successful set, we check:
 - gcd(n,l) != 1
 - k = {-1,0,1} mod n/gcd(n,l)
-- l < n / (k+1)
-- k > n/2
+- l >= n / (k+1)
+- k <= n/2
   - One can take the complement of the k=n-k case to achieve this result, may be added in a later fix
 
 **Usage Synatax:**
@@ -67,10 +68,9 @@ For a successful set, we check:
 4 Parameters:
 - python generateSetsFull.py n k l [clipboard]
 - python generateSetsFull.py 10 5 5 True
-  - Generates a collection using a semi-random ordering for n=10,   k=5, l=5 and copies result to clipboard
+  - Generates a collection using a semi-random ordering for n=10, k=5, l=5 and copies result to clipboard
 
 1 Parameter:
 - python generateSetsFull.py n
 - python generateSetsFull.py 10
   - Generate a random collection for an n from 4 to 10. 
-
