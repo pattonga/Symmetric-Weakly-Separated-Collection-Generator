@@ -107,8 +107,12 @@ def Valgorithm2(n, k, l, printSeeds=True, printCollection=True, stOrder=True,ove
             ordering.append(pick)
         avNums = list(range(1,g+1))
         avNums.reverse()
-        for i in avNums:
-            ordering.append(i)
+        #for i in avNums:
+        #    ordering.append(i)
+        while avNums != []:
+            pick = random.choice(avNums)
+            avNums.remove(pick)
+            ordering.append(pick)
         print("Random ordering:", ordering)
     else:
         ordering = []
@@ -166,10 +170,9 @@ def Valgorithm2(n, k, l, printSeeds=True, printCollection=True, stOrder=True,ove
         iterConsecs =  []                        # Sets to iterate on (all consecutive)
         ordered = sorted(previousStepRemoval)   # Puts them into sorted order
         for u in range(len(ordered)):           # Loop through sequences
-            base = (a-k-1)%n+1
-            while (base+1-1)%n+1 not in previousStepRemoval:  # (base+1-1)%n+1 = Find sucessor to a-k
-                base = (base+1-1)%n+1
-            start = ordered.index((base+1-1)%n+1)
+            base = ordered.index(a)
+            base = (base - k+1)%len(ordered)  # Find the base for the consecutive terms (a-k+1)
+            start = base
             consec = tuple(ordered[(start + j+u) % len(ordered)] for j in range(k))     # Create the consecutive  terms 
             iterConsecs.append(consec)                                                  # Add this to a the iterate set 
             if(consec[0])== a:                                                          # We are done when a starts on the left
@@ -200,6 +203,7 @@ def Valgorithm2(n, k, l, printSeeds=True, printCollection=True, stOrder=True,ove
             while j<k:
                 right.append(consec[j])                     # Starting at a, finish off right so that left+right has size k
                 j+=1
+            outOfTerms = True                            # Assume we are out of terms to remove from right
             for r in right:                                 # See if we will be starting by removing from right (this impacts while loop when left = [] to start)
                 if r not in total_Available:
                     outOfTerms = False
@@ -360,9 +364,9 @@ if __name__ == "__main__":
         printCollection = True if len(sys.argv) < 7 or sys.argv[6].lower() == 'true' else False
     else:
         # Manual Run: Adjust and run from here
-        n = 10      # Total number of elements
-        k = 4       # Size of each subset
-        l = 6       # Symmetry (Expect d=n/gcd(n, l) blocks of symmetry ~ 2pi/d))
+        n = 22      # Total number of elements
+        k = 2       # Size of each subset
+        l = 11       # Symmetry (Expect d=n/gcd(n, l) blocks of symmetry ~ 2pi/d))
         override = []   # Manual input for ordering, if needed. Note if gcd(n,l) != l, this may not work as expected.
         printSeeds = True # Print results or not
         printCollection = True # Print the collection generated or not

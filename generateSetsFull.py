@@ -110,12 +110,12 @@ def Valgorithm2(n, k, l, printSeeds=True, stOrder=True,override=[], copyToClipbo
             ordering.append(pick)
         avNums = list(range(1,g+1))
         avNums.reverse()
-        for i in avNums:
-            ordering.append(i)
-        #while avNums != []:
-        #    pick = random.choice(avNums)
-        #    avNums.remove(pick)
-        #    ordering.append(pick)
+        #for i in avNums:
+        #    ordering.append(i)
+        while avNums != []:
+            pick = random.choice(avNums)
+            avNums.remove(pick)
+            ordering.append(pick)
         print("Random ordering:", ordering)
     else:
         ordering = []
@@ -176,10 +176,9 @@ def Valgorithm2(n, k, l, printSeeds=True, stOrder=True,override=[], copyToClipbo
         iterConsecs =  []                        # Sets to iterate on (all consecutive)
         ordered = sorted(previousStepRemoval)   # Puts them into sorted order
         for u in range(len(ordered)):           # Loop through sequences
-            base = (a-k-1)%n+1
-            while (base+1-1)%n+1 not in previousStepRemoval:  # (base+1-1)%n+1 = Find sucessor to a-k
-                base = (base+1-1)%n+1
-            start = ordered.index((base+1-1)%n+1)
+            base = ordered.index(a)
+            base = (base - k+1)%len(ordered)  # Find the base for the consecutive terms (a-k+1)
+            start = base
             consec = tuple(ordered[(start + j+u) % len(ordered)] for j in range(k))     # Create the consecutive  terms 
             iterConsecs.append(consec)                                                  # Add this to a the iterate set 
             if(consec[0])== a:                                                          # We are done when a starts on the left
@@ -210,6 +209,7 @@ def Valgorithm2(n, k, l, printSeeds=True, stOrder=True,override=[], copyToClipbo
             while j<k:
                 right.append(consec[j])                     # Starting at a, finish off right so that left+right has size k
                 j+=1
+            outOfTerms = True                            # Assume we are out of terms to remove from right
             for r in right:                                 # See if we will be starting by removing from right (this impacts while loop when left = [] to start)
                 if r not in total_Available:
                     outOfTerms = False
@@ -480,8 +480,6 @@ def test_valgorithm2_up_to(startN, max_n: int, *, quiet_valgo: bool = True,
                 try:
                     if not checkConds(n, k, l, False):
                         continue  # silently skip invalid triples
-                    if gcd(n, l) == l:
-                        continue
 
                     with suppress_output():
                     #print(f"Testing n={n}, k={k}, l={l}...", end=' ')
@@ -540,7 +538,7 @@ if __name__ == "__main__":
         printSeeds = True # Print the results of the orbit
         copyCollectionToClipboard = False # Copy the results to clipboard
 
-        testing = False # Enable mode to test from nStart to nTo (Note this skips cases not meeting necessary conditions)
+        testing = True # Enable mode to test from nStart to nTo (Note this skips cases not meeting necessary conditions)
         nStart = 7      # Start of the range for testing
         nTo = 200        # End of the range for testing
         supPass = False # Suppress showing passed cases (note this will give pass on all cases, so expect no output)
