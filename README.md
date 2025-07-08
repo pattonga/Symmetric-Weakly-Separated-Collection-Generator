@@ -55,8 +55,6 @@ For a successful set, we check:
 - [override] (optional, set/list of length l):
   - A manual ordering of the elements {1, 2, ..., l}. 
   - When l does not divide n, the ordering must begin with the equivalence classes from g+1 to l and end with the equivalence classes from 1 to g. In other words, min{1, 2, ..., g} > max{g+1, g+2, ..., l}.
-  - Furthermore, when l does not divide n, the algorithm may not fully generate when the ordering does not include {g, g-1, ..., 1}.
-
 **Parameter Conditions:**
 
 For a successful set, we check:
