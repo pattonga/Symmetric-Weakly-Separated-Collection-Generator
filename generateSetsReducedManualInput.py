@@ -369,10 +369,12 @@ if __name__ == "__main__":
         else: 
             l = 0
 
+    g = gcd(n, l)
+
     while (k <= 0): #user input for size of each subset
         print("Input a positive integer for k, such that k is less than or equal to n/2 and k is -1, 0, or 1 modulo n/gcd(n,l).")
         k = input()
-        if (k.isdigit() & (int(k)>0) & (int(k)<=n/2) & ((int(k) % (n/gcd(n,l)) == 1) | (int(k)%(n/gcd(n,l)) == 0) | (int(k) % (n/gcd(n,l)) == -1))):
+        if (k.isdigit() & (int(k)>0) & (int(k)<=n/2) & ((int(k) % (n/g) == 1) | (int(k)%(n/g) == 0) | (int(k) % (n/g) == -1))):
             k = int(k)
         else: 
             k = 0
@@ -383,10 +385,10 @@ if __name__ == "__main__":
         j = input()
         if (j.isdigit() & (int(j) > 0)):
             j = int(j)
-            if ((i <= l-gcd(n,l)) & (j > gcd(n,l)) & (j <= l)):
+            if ((i <= l-g) & (j > g) & (j <= l)):
                 override.append(j)
                 i += 1
-            if ((i > l-gcd(n,l)) & (j <= gcd(n,l))):
+            if ((i > l-g) & (j <= g)):
                 override.append(j)
                 i += 1
 
