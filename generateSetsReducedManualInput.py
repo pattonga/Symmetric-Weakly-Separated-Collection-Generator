@@ -356,7 +356,7 @@ if __name__ == "__main__":
     while (n <= 0): #user input for total number of elements
         print("Input a positive integer for n.")
         n = input()
-        if (n.isdigit() & (int(n)>0)): 
+        if (n.isdigit() & (int(n) > 0)): 
             n = int(n) 
         else: 
             n = 0
@@ -364,7 +364,7 @@ if __name__ == "__main__":
     while (l <= 0): #user input for symmetry (2pi/d rotational symmetry, where d = n/gcd(n, l)))
         print("Input a positive integer for l, such that n and l are not coprime.")
         l = input()
-        if (l.isdigit() & (int(l)>0) & (int(l)<n) & (gcd(n, int(l))>1)):
+        if (l.isdigit() & (int(l) > 0) & (int(l) < n) & (gcd(n, int(l)) > 1)):
             l = int(l)
         else: 
             l = 0
@@ -374,7 +374,7 @@ if __name__ == "__main__":
     while (k <= 0): #user input for size of each subset
         print("Input a positive integer for k, such that k is less than or equal to n/2 and k is -1, 0, or 1 modulo n/gcd(n,l).")
         k = input()
-        if (k.isdigit() & (int(k)>0) & (int(k)<=n/2) & ((int(k) % (n/g) == 1) | (int(k)%(n/g) == 0) | (int(k) % (n/g) == -1))):
+        if (k.isdigit() & (int(k) > 0) & (int(k) <= n/2) & ((int(k) % (n / g) == 1) | (int(k) % (n / g) == 0) | (int(k) % (n / g) == -1))):
             k = int(k)
         else: 
             k = 0
@@ -385,10 +385,10 @@ if __name__ == "__main__":
         j = input()
         if (j.isdigit() & (int(j) > 0)):
             j = int(j)
-            if ((i <= l-g) & (j > g) & (j <= l)):
+            if ((i <= l - g) & (j > g) & (j <= l)):
                 override.append(j)
                 i += 1
-            if ((i > l-g) & (j <= g)):
+            if ((i > l - g) & (j <= g)):
                 override.append(j)
                 i += 1
 
