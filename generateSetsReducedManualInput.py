@@ -379,30 +379,34 @@ if __name__ == "__main__":
         else: 
             k = 0
 
-    i = 1
+i = 1
     while (len(override) < l): #user input for total ordering
         print("Add equivalence class #" + str(i) + " to the ordering.")
         j = input()
-        if (j.isdigit() & (int(j) > 0) & int(j) <= l):
+        if (j.isdigit() & (int(j) > 0)):
             j = int(j)
             if ((i <= l - g) & (j > g) & (j <= l)):
                 override.append(j)
                 i += 1
             else: 
                 print("The first " + str(l-g) + " elements of the ordering must consist of equivalence classes from " + str(g) + " to " + str(l))
-            if ((i > l - g) & (j <= g)):
+            if ((l > g) & (i > l - g) & (j <= g)):
                 override.append(j)
                 i += 1
             else:
                 print("The last " + str(g) + " elements of the ordering must consist of equivalence classes from 1 to " + str(g))
+            if (l == g): 
+                override.append(g)
+                i += 1
         else:
             print("Input is not an integer between 1 and l (inclusive).")
 
-    # Run using inputted number
-    printSeeds = True # Print results or not
-    printCollection = True # Print the collection generated or not
-        
-    runAlgorithm(n, k, l, override, printSeeds, printCollection)
+# Run using inputted number
+print("Generating a symmetric maximal weakly separated collection for n = " + str(n) + ", k = " + str(k) + ", and l = " + str(l) + ". The ordering is given by " + str(override) + ".")
+printSeeds = True # Print results or not
+printCollection = True # Print the collection generated or not     
+
+runAlgorithm(n, k, l, override, printSeeds, printCollection)
 
 
         
