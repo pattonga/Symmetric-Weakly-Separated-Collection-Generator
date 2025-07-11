@@ -5,6 +5,9 @@ import random
 import sys
 import ast
 
+RED = "\033[91m"
+RESET = "\033[0m"
+
 # ───────────────────────
 # Helper Functions
 # ───────────────────────
@@ -94,37 +97,7 @@ def Valgorithm2(n, k, l, printSeeds=True, printCollection=True, stOrder=True,ove
     tooSmall = False                            # Break condition when we run out of terms throughout the code
     removedFromRight = False                    # Keeps track if we removed from right of a_i (term in [l]) or from the left
 
-    if stOrder:
-        ordering= list(range(1,l+1))  # Just a list from 1 to n for ordering purposes
-        ordering.reverse()
-        print("Standard ordering:", ordering)
-    elif not stOrder and gcdFix:
-        ordering = []
-        avNums = list(range(g+1,l+1))
-        while avNums != []:
-            pick = random.choice(avNums)
-            avNums.remove(pick)
-            ordering.append(pick)
-        avNums = list(range(1,g+1))
-        avNums.reverse()
-        #for i in avNums:
-        #    ordering.append(i)
-        while avNums != []:
-            pick = random.choice(avNums)
-            avNums.remove(pick)
-            ordering.append(pick)
-        print("Random ordering:", ordering)
-    else:
-        ordering = []
-        avNums = list(range(1,l+1))
-        while avNums != []:
-            pick = random.choice(avNums)
-            avNums.remove(pick)
-            ordering.append(pick)
-        print("Random ordering:", ordering)
-    if override != []:
-        ordering = override
-        print("Override ordering:", ordering)
+    ordering = override
     
 
 # ───────────────────────
@@ -333,8 +306,6 @@ def runAlgorithm(n, k, l, override=[], printSeeds=True, printCollection=True):
 
         expected = k * (n - k) + 1
         found  = len(unique_subsets)
-        print(found)
-        print(expected)
     else:
         print(f"Invalid parameters: n={n}, k={k}, l={l}. Check conditions.")
 
@@ -374,33 +345,46 @@ if __name__ == "__main__":
     while (k <= 0): #user input for size of each subset
         print("Input a positive integer for k, such that k is less than or equal to n/2 and k is -1, 0, or 1 modulo n/gcd(n,l).")
         k = input()
-        if (k.isdigit() & (int(k) > 0) & (int(k) <= n/2) & ((int(k) % (n / g) == 1) | (int(k) % (n / g) == 0) | (int(k) % (n / g) == -1))):
+        d = n // g
+        if (k.isdigit() & (int(k) > 0) & (int(k) <= n/2) & ((int(k) % (d) == 1) | (int(k) % (d) == 0) | (int(k) % d == (d - 1)))):
             k = int(k)
         else: 
             k = 0
 
-i = 1
+    i = 1
     while (len(override) < l): #user input for total ordering
-        print("Add equivalence class #" + str(i) + " to the ordering.")
+        print("Add equivalence class #" + str(i) + " to the ordering")
         j = input()
+        print("")
         if (j.isdigit() & (int(j) > 0)):
             j = int(j)
-            if ((i <= l - g) & (j > g) & (j <= l)):
-                override.append(j)
-                i += 1
-            else: 
-                print("The first " + str(l-g) + " elements of the ordering must consist of equivalence classes from " + str(g) + " to " + str(l))
-            if ((l > g) & (i > l - g) & (j <= g)):
-                override.append(j)
-                i += 1
-            else:
-                print("The last " + str(g) + " elements of the ordering must consist of equivalence classes from 1 to " + str(g))
-            if (l == g): 
-                override.append(g)
-                i += 1
-        else:
-            print("Input is not an integer between 1 and l (inclusive).")
+            if j in range(1, l + 1):
+                if j not in override:
+                    if ((i <= l - g) & (j > g) & (j <= l)):
+                        override.append(j)
+                        i += 1
+                    elif (i <= l - g):
+                        print(f"{RED}The first " + str(l-g) + " elements of the ordering must consist of inputs from " + str(g+1) + " to " + str(l) + f"{RESET}")
+                    elif ((i > l - g) & (j <= g)):
+                        override.append(j)
+                        i += 1
+                    elif l>g:
+                        print(f"{RED}The last " + str(g) + " elements of the ordering must consist of equivalence classes from 1 to " + str(g) +f"{RESET}")
+                    print("Current ordering: ", end="")
+                    for j in range(len(override)):
+                        print(override[j], end="")
+                        if j < len(override) - 1:
+                            print(" < ", end="")
+                    print("")
+                else:
+                    print(f"{RED}Input is already in the ordering. Remaining numbers numbers are: {RESET}", end="")
+                    for j in range(1, l + 1):
+                        if j not in override:
+                            print(j, end=" ")
+                    print("")
 
+            else:
+                print(f"{RED}Input is not an integer between 1 and l (inclusive).{RESET}")
 # Run using inputted number
 print("Generating a symmetric maximal weakly separated collection for n = " + str(n) + ", k = " + str(k) + ", and l = " + str(l) + ". The ordering is given by " + str(override) + ".")
 printSeeds = True # Print results or not
