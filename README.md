@@ -2,7 +2,7 @@
 Implements an algorithm to generate maximal symmetric weakly separated collections of subsets given parameters n, k, and l. Includes tools to compute orbits under modular shifts, validate input conditions, and verify set properties. Useful for research in combinatorics and relates to Legendrian weaves through T-shift. Note: this algorithm differs from the algorithm in our paper in that the algorithm in the paper removes duplicates, but this adaptation of the algorithm eschews that step for more seamless implementation. 
 
 
-### Files and How to Use
+### Files and How to Use 
 
 ### generateSetsReduced.py
 
