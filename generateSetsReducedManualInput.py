@@ -383,18 +383,20 @@ if __name__ == "__main__":
     while (len(override) < l): #user input for total ordering
         print("Add equivalence class #" + str(i) + " to the ordering.")
         j = input()
-        if (j.isdigit() & (int(j) > 0)):
+        if (j.isdigit() & (int(j) > 0) & int(j) <= l):
             j = int(j)
             if ((i <= l - g) & (j > g) & (j <= l)):
-                print("The first " + str(l - g) + " elements of the ordering must consist of equivalence classes from " + str(g) + " to " + str(l))
                 override.append(j)
                 i += 1
-            elif ((i > l - g) & (j <= g)):
-                print("The last " + str(g) + " elements of the ordering must consist of equivalence classes from 1 to " + str(g))
+            else: 
+                print("The first " + str(l-g) + " elements of the ordering must consist of equivalence classes from " + str(g) + " to " + str(l))
+            if ((i > l - g) & (j <= g)):
                 override.append(j)
                 i += 1
             else:
-                print("Input is not an integer between 1 and l (inclusive).")
+                print("The last " + str(g) + " elements of the ordering must consist of equivalence classes from 1 to " + str(g))
+        else:
+            print("Input is not an integer between 1 and l (inclusive).")
 
     # Run using inputted number
     printSeeds = True # Print results or not
