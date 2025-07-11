@@ -386,11 +386,15 @@ if __name__ == "__main__":
         if (j.isdigit() & (int(j) > 0)):
             j = int(j)
             if ((i <= l - g) & (j > g) & (j <= l)):
+                print("The first " + str(l - g) + " elements of the ordering must consist of equivalence classes from " + str(g) + " to " + str(l))
                 override.append(j)
                 i += 1
-            if ((i > l - g) & (j <= g)):
+            elif ((i > l - g) & (j <= g)):
+                print("The last " + str(g) + " elements of the ordering must consist of equivalence classes from 1 to " + str(g))
                 override.append(j)
                 i += 1
+            else:
+                print("Input is not an integer between 1 and l (inclusive).")
 
     # Run using inputted number
     printSeeds = True # Print results or not
