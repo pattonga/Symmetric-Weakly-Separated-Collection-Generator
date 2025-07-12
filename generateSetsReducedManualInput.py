@@ -341,12 +341,12 @@ if __name__ == "__main__":
             l = 0
 
     g = gcd(n, l)
+    d = n // g
 
     while (k <= 0): #user input for size of each subset
         print("Input a positive integer for k, such that k is less than or equal to n/2 and k is -1, 0, or 1 modulo n/gcd(n,l).")
         k = input()
-        d = n // g
-        if (k.isdigit() & (int(k) > 0) & (int(k) <= n/2) & ((int(k) % (d) == 1) | (int(k) % (d) == 0) | (int(k) % d == (d - 1)))):
+        if (k.isdigit() & (int(k) > 0) & (int(k) <= n/2) & ((int(k) % d == 1) | (int(k) % d == 0) | (int(k) % d == (d - 1)))):
             k = int(k)
         else: 
             k = 0
