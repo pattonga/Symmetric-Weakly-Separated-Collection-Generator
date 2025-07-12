@@ -87,5 +87,5 @@ For a successful set, we check:
 **Usage Syntax:**
 
 - In a terminal, run generateSetsReducedManualInput.py 
-- Data for n, k, l, and the ordering taken from user input through the terminal
+- The data for n, k, l, and the ordering are taken from user input through the terminal, although the data is checked for failure conditions
 
